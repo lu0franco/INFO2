@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
 	int Menu;
 	do{
 		printf("\n\n");
-		printf("Menú del juego\n");
+		printf("MenÃº del juego\n");
 		printf ("____________________________\n");
 		printf("1) Inicia el juego.\n");
 		printf("2) Muestra el tablero. \n");
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 			ShowGame (TABLE);
 			break;
 		case 3:
-			printf("Elija dónde disparar \n");
+			printf("Elija dÃ³nde disparar \n");
 			ShootAction (TABLE, &CANNONBALLSCOUNTER, &puntero_x ,&puntero_y);
 			break;
 		case 4:
@@ -104,9 +104,9 @@ int GetShootData (){
 	int number;
 	while (number < 0 || number >4){
 		if (scanf("%d",&number) == 1) {
-			if (number < 0 || number >4) {printf("Número Inválido.\n");} else {printf("Número Válido.\n");}
+			if (number < 0 || number >4) {printf("NÃºmero InvÃ¡lido.\n");} else {printf("NÃºmero VÃ¡lido.\n");}
 		} else {
-			printf("El valor ingresado no es un número, ingrese un número válido:  ");
+			printf("El valor ingresado no es un nÃºmero, ingrese un nÃºmero vÃ¡lido:  ");
 			fflush(stdin);
 		}
 	}
@@ -122,7 +122,7 @@ void ShootAction (char TABLE[5][5] , int *CANNONBALLSCOUNTER , int *puntero_x, i
 	printf("Defina Valor de Y para el Disparo (debe ser un numero entre 0 y 4):  ");
 	*puntero_y=GetShootData();
 	if (TABLE[*puntero_y][*puntero_x] == 'A') {
-		printf("Ya se disparó a estas coordenadas en una jugada anterior \n");
+		printf("Ya se disparÃ³ a estas coordenadas en una jugada anterior \n");
 		check=1;
 	}else {check=0;}
 	} while (check==1);
@@ -138,7 +138,7 @@ void ShootAction (char TABLE[5][5] , int *CANNONBALLSCOUNTER , int *puntero_x, i
 	printf("Quedan %d disparos \n" , tiros);
 	}
 	}
-	else {printf ("Se acabaron los disparos,¿desea comenzar otra partida? Elija la opción 1 en el menu del juego \n");
+	else {printf ("Se acabaron los disparos,Â¿desea comenzar otra partida? Elija la opciÃ³n 1 en el menu del juego \n");
 	}
 	return;
 }
