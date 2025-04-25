@@ -28,10 +28,10 @@ int main(int argc, char *argv[]) {
 	do {
 	printf (" \n");
 	printf ("_______________________________________________________________________________________________ \n");
-	printf ("Bienvenido al menú de control de stock y estado de los motores, elija una opción para continuar \n");
-	printf ("1) Añadir un motor a la lista \n");
+	printf ("Bienvenido al menÃº de control de stock y estado de los motores, elija una opciÃ³n para continuar \n");
+	printf ("1) AÃ±adir un motor a la lista \n");
 	printf ("2) Mostrar lista de motores \n");
-	printf ("3) Buscar un motor por número de serie \n");
+	printf ("3) Buscar un motor por nÃºmero de serie \n");
 	printf ("4) Mostrar motores encendidos \n");
 	printf ("5) Calcular consumo de corriente de los motores en funcionamiento \n");
 	printf ("6) Cerrar programa \n");
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 	case 3:
 		SearchData(stock);
 		printf (" \n");
-		printf("Búsqueda realizada \n");
+		printf("BÃºsqueda realizada \n");
 		break;
 	case 4:
 		printf ("Los motores encendidos actualmente son:    \n");
@@ -132,7 +132,7 @@ void ShowData(motor* m , int i) {
 void SearchData(motor* m) {
 	char SerialNumberSearch[20];
 	fflush(stdin);
-	printf("Ingrese número de serie a buscar: ");
+	printf("Ingrese nÃºmero de serie a buscar: ");
 	scanf("%s", SerialNumberSearch);
 	for (int i = 0; i < motorCount; i++) {
 		if (strcmp(m[i].SerialNumber, SerialNumberSearch) == 0) {
