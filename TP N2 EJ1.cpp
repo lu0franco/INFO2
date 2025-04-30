@@ -6,12 +6,12 @@
 #define MAX 20
 using namespace std;
 struct motor{
-	char SerialNumber [20];
-	char Vendor [3];
-	char Model [7];
+	char SerialNumber [21];
+	char Vendor [6];
+	char Model [10];
 	int Voperation;
 	float Iwork;
-	char ONOFF[3];
+	char ONOFF[4];
 } stock [MAX];
 int motorCount = 0;
 void LogData(motor* m);
@@ -84,45 +84,59 @@ int main(int argc, char *argv[]) {
 }
 
 void LogData(motor* m) {
-	printf("Ingrese el Numero de serie: ");
-	scanf("%20s",m->SerialNumber);
-	fflush(stdin);
-	printf("Ingrese la marca: ");
-	scanf("%3s",m->Vendor);
-	fflush(stdin);
-	printf("Ingrese el modelo: ");
-	scanf("%7s",m->Model);
-	fflush(stdin);
-	printf("Ingrese el voltaje de trabajo: ");
-	int flagVoperation=0;
-	do {
-		printf("NOTA: solo se admiten valores ''220'' y ''380'' -->");
-		scanf("%d",&flagVoperation);
-			m->Voperation=flagVoperation;
-			fflush(stdin);
-	}while (flagVoperation!=220 && flagVoperation!=380);
-
-	printf("Ingrese la corriente de trabajo: ");
-	float flagIwork=0;
-	do {
-		printf("NOTA: solo se admiten valores positivos -->");
-		scanf("%f",&flagIwork);
-		m->Iwork=flagIwork;
-		fflush(stdin);
-	}while (flagIwork<0);
-	printf("Ingrese estado del motor: ");
-	char ONOFFtemp [3];
-	int flagONOFF=0;
-	do {
-	printf("NOTA: solo se admiten valores ''ON'' y ''OFF''-->");
-	scanf("%s",ONOFFtemp);
+	char buffer[100];
 	
-	if (strcmp(ONOFFtemp, "ON")==0 || strcmp(ONOFFtemp, "OFF")==0){
-		flagONOFF=1;
-	}
-	}while (flagONOFF==0);
-	strcpy(m->ONOFF,ONOFFtemp);
-	fflush(stdin);
+	printf("Ingrese el Numero de serie: ");
+	fgets(buffer, sizeof(buffer), stdin);
+	sscanf(buffer, "%21[^\n]", m->SerialNumber);  // Máximo 19 caracteres
+	
+	// Marca (Vendor)
+	printf("Ingrese la marca: ");
+	fgets(buffer, sizeof(buffer), stdin);
+	buffer[strcspn(buffer, "\n")] = 0;  // Eliminar '\n'
+	strncpy(m->Vendor, buffer, sizeof(m->Vendor) - 1);
+	m->Vendor[sizeof(m->Vendor) - 1] = '\0';
+	
+	// Modelo
+	printf("Ingrese el modelo: ");
+	fgets(buffer, sizeof(buffer), stdin);
+	buffer[strcspn(buffer, "\n")] = 0;  // Eliminar '\n'
+	strncpy(m->Model, buffer, sizeof(m->Model) - 1);
+	m->Model[sizeof(m->Model) - 1] = '\0';
+	
+	// Voltaje: solo 220 o 380
+	do {
+		printf("Ingrese el voltaje de trabajo, NOTA: solo se admiten valores '220' y '380' --> ");
+		fgets(buffer, sizeof(buffer), stdin);
+		if (sscanf(buffer, "%d", &m->Voperation) != 1) {
+			printf("Entrada inválida. Intente de nuevo.\n");
+			continue;
+		}
+	} while (m->Voperation != 220 && m->Voperation != 380);
+	
+	// Corriente: positivo
+	float flagIwork;
+	
+	do {
+		printf("Ingrese la corriente de trabajo, NOTA: solo se admiten valores positivos --> ");
+		fgets(buffer, sizeof(buffer), stdin);
+		
+		// Intentar convertir a float y validar que sea positivo
+		if (sscanf(buffer, "%f", &flagIwork) == 1 && flagIwork >= 0) {
+			m->Iwork = flagIwork;
+			break;
+		} else {
+			printf("Entrada inválida. Intente de nuevo.\n");
+		}
+		
+	} while (1);
+	
+	// Estado ON/OFF
+	do {
+		printf("Ingrese estado, NOTA: solo se admiten valores 'ON' y 'OFF' --> ");
+		fgets(buffer, sizeof(buffer), stdin);
+		sscanf(buffer, "%3s", m->ONOFF);  // Solo dos letras + '\0'
+	} while (strcmp(m->ONOFF, "ON") != 0 && strcmp(m->ONOFF, "OFF") != 0);
 }
 
 void ShowData(motor* m , int i) {
